@@ -25,16 +25,31 @@ class TaskStore {
     },
   ];
 
+  newTitle: string = "";
+  newDesc: string = "";
+
+  setTitle(title: string) {
+    this.newTitle = title;
+  }
+  setDesc(desc: string) {
+    this.newDesc = desc;
+  }
+
   constructor() {
     makeAutoObservable(this);
   }
 
-  addTask(title: string, desc: string) {
-    return this.tasks.push({ title, desc, doFlag: false });
+  addTask() {
+    if (this.newTitle.trim() && this.newDesc.trim()) {
+      this.tasks.push({ title: this.newTitle, desc: this.newDesc, doFlag: false });
+      this.newTitle = "";
+      this.newDesc = "";
+    }
   }
 
   deleteTask(index: number) {
-    return this.tasks.filter((item, ind) => ind != index);
+    // return this.tasks.filter((item, ind) => ind != index);
+    this.tasks = this.tasks.filter((item, ind) => ind !== index);
   }
   toggleTask(index: number) {
     return (this.tasks[index].doFlag = !this.tasks[index].doFlag);
