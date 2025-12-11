@@ -7,8 +7,7 @@ function App() {
 
   return (
     <>
-      <ToDo task={{title:"Сделать дз", desc:"лалала", doFlag:false}}></ToDo>
-      <ToDo task= {{title:"Сделать дз2", desc:"лалала2", doFlag:false}}></ToDo>
+      <ToDo></ToDo>
     </>
   );
 }

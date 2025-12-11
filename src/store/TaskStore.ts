@@ -1,12 +1,10 @@
 import { makeAutoObservable } from "mobx";
 
-
 export type Task = {
   title: string;
   desc: string;
   doFlag: boolean;
 };
-
 
 class TaskStore {
   tasks: Task[] = [
@@ -25,23 +23,22 @@ class TaskStore {
       desc: "Посмотреть ролики на YT",
       doFlag: false,
     },
-    ];
+  ];
 
-    constructor() {
+  constructor() {
     makeAutoObservable(this);
   }
-    
-    addTask(title: string, desc: string) {
-    this.tasks.push({ title, desc, doFlag: false });
-    }
-    
-    deleteTask(index: number) { 
-        this.tasks.filter((item,ind) => ind != index)
-   }
-    toggleTask(index: number) { 
-      this.tasks[index].doFlag = !this.tasks[index].doFlag
-   }
+
+  addTask(title: string, desc: string) {
+    return this.tasks.push({ title, desc, doFlag: false });
+  }
+
+  deleteTask(index: number) {
+    return this.tasks.filter((item, ind) => ind != index);
+  }
+  toggleTask(index: number) {
+    return (this.tasks[index].doFlag = !this.tasks[index].doFlag);
+  }
 }
 
 export const taskStore = new TaskStore();
-

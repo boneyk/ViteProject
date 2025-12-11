@@ -1,31 +1,34 @@
 import { useState } from "react";
+import { observer } from "mobx-react-lite";
+import { taskStore } from "../store/TaskStore";
 
-type Task = {
-  title: string,
-  desc: string,
-  doFlag: boolean
-};
-
-function ToDo( { task }: { task: Task } ) {
-  const [changeFlag, setChangeFlag] = useState < boolean > (false);
+const ToDo = observer(() => {
   return (
     <>
-      <div
-        onClick={() => setChangeFlag(!changeFlag)}
-        style={{
-          width: "200px",
-          height: "100px",
-          border: "2px solid black",
-          background: "grey",
-          cursor: "pointer",
-        }}
-      >
-        <h3 style={{ textDecoration: changeFlag ? "line-through" : "none" }}>
-          {task.title}
-        </h3>
-        <p>{task.desc}</p>
-      </div>
+      {taskStore.tasks.map((task, ind) => {
+        return (
+          <div
+            key={ind}
+            onClick={() => taskStore.toggleTask(ind)}
+            style={{
+              width: "400px",
+              height: "120px",
+              border: "2px solid black",
+              background: "grey",
+              cursor: "pointer",
+              margin: "10px"
+            }}
+          >
+            <h3 style={{ textDecoration: task.doFlag ? "line-through" : "none" }}>
+              {task.title}
+            </h3>
+            <p>
+              {task.desc}
+            </p>
+          </div>);
+      })}
     </>
   );
-}
+});
+
 export default ToDo;
