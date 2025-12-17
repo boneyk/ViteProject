@@ -1,31 +1,76 @@
-import { useState } from "react";
+import { observer } from "mobx-react-lite";
+import { taskStore } from "../store/TaskStore";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import { filledInputClasses } from "@mui/material/FilledInput";
+import { inputBaseClasses } from "@mui/material/InputBase";
 
-type Task = {
-  title: string,
-  desc: string,
-  doFlag: boolean
-};
-
-function ToDo( { task }: { task: Task } ) {
-  const [changeFlag, setChangeFlag] = useState < boolean > (false);
+const ToDo = observer(() => {
   return (
     <>
-      <div
-        onClick={() => setChangeFlag(!changeFlag)}
-        style={{
-          width: "200px",
-          height: "100px",
-          border: "2px solid black",
-          background: "grey",
-          cursor: "pointer",
+      {taskStore.tasks.map((task, ind) => (
+        <Card
+          sx={{
+            maxWidth: 345,
+            border: "2px solid black",
+            cursor: "pointer",
+            margin: "10px",
+          }}
+          key={ind}
+          onClick={() => taskStore.toggleTask(ind)}
+        >
+          <CardContent>
+            <Typography
+              variant="h6"
+              sx={{ textDecoration: task.doFlag ? "line-through" : "none" }}
+            >
+              {task.title}
+            </Typography>
+            <Typography variant="body2">{task.desc}</Typography>
+            <Button
+              variant="contained"
+              style={{ marginTop: "10px" }}
+              onClick={(even) => {
+                even.stopPropagation();
+                taskStore.deleteTask(ind);
+              }}
+            >
+              Удалить
+            </Button>
+          </CardContent>
+        </Card>
+      ))}
+      <TextField
+        id="filled-suffix-shrink"
+        label="Title"
+        helperText="Please enter your task title"
+        variant="filled"
+        style={{ backgroundColor: "white", color: "black" }}
+        onChange={(e) => taskStore.setTitle(e.target.value)}
+      />
+      <TextField
+        id="filled-suffix-shrink"
+        label="Description"
+        helperText="Please enter your task describtion"
+        variant="filled"
+        style={{ backgroundColor: "white", color: "black" }}
+        onChange={(e) => taskStore.setDesc(e.target.value)}
+      />
+      <Button
+        variant="outlined"
+        style={{marginBottom:"20px",display:"block",marginTop:"10px"}}
+        onClick={() => {
+          taskStore.addTask();
         }}
       >
-        <h3 style={{ textDecoration: changeFlag ? "line-through" : "none" }}>
-          {task.title}
-        </h3>
-        <p>{task.desc}</p>
-      </div>
+        Добавить
+      </Button>
     </>
   );
-}
+});
+
 export default ToDo;
