@@ -49,6 +49,7 @@ const ToDo = observer(() => {
         label="Title"
         helperText="Please enter your task title"
         variant="filled"
+        style={{ backgroundColor: "white", color: "black" }}
         onChange={(e) => taskStore.setTitle(e.target.value)}
       />
       <TextField
@@ -56,9 +57,16 @@ const ToDo = observer(() => {
         label="Description"
         helperText="Please enter your task describtion"
         variant="filled"
+        style={{ backgroundColor: "white", color: "black" }}
         onChange={(e) => taskStore.setDesc(e.target.value)}
       />
-      <Button variant="outlined" onClick={() => {taskStore.addTask()}}>
+      <Button
+        variant="outlined"
+        style={{marginBottom:"20px",display:"block",marginTop:"10px"}}
+        onClick={() => {
+          taskStore.addTask();
+        }}
+      >
         Добавить
       </Button>
     </>
